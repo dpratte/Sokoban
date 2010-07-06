@@ -5,6 +5,7 @@
 		<Option title="Sokoban" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Option virtualFolders="lua/;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/Sokoban" prefix_auto="1" extension_auto="1" />
@@ -30,10 +31,27 @@
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
+			<Add option="-Winvalid-pch" />
 		</Compiler>
+		<Linker>
+			<Add library="lua" />
+			<Add library="sfml-system" />
+			<Add library="dl" />
+		</Linker>
+		<Unit filename="Application.cpp" />
+		<Unit filename="Application.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="main_init.lua">
+			<Option virtualFolder="lua/" />
+		</Unit>
+		<Unit filename="stdafx.h">
+			<Option compile="1" />
+			<Option weight="0" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
