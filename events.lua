@@ -4,6 +4,9 @@ canvas_invalidated = true
 
 function skb_OnEvent(e)
 	print("Event: " .. e)
+	if e == "CANVAS_CLOSED" then
+		skb_quit()	
+	end
 	return 0
 end
 

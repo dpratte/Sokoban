@@ -15,11 +15,15 @@ class Application
         int exec(int argc, char* argv[]);
         sf::Window* canvas();
         lua_State* luaState();
+        /** Requests that the game is closed */
+        void close();
     protected:
         lua_State* _state;
         static Application* _instance;
+        bool _stop;
         sf::Window* window;
         std::map<int, const char*> _eventStringMap;
+        void raiseLuaEvent(const char* name);
     private:
         /** Default constructor */
         Application();

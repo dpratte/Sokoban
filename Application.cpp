@@ -5,7 +5,8 @@
 Application* Application::_instance = new Application();
 
 Application::Application()
-: _eventStringMap()
+: _stop(false),
+_eventStringMap()
 {
     _state = lua_open();
     luaL_openlibs(_state);
@@ -17,7 +18,7 @@ Application::Application()
 
 void Application::mapEventTable()
 {
-
+    //TODO: See if a better way of doing this mapping is available...
     _eventStringMap.insert(std::pair<int, const char*>(sf::Event::Closed,               "CANVAS_CLOSED"));
     _eventStringMap.insert(std::pair<int, const char*>(sf::Event::Resized,              "CANVAS_RESIZED"));
     _eventStringMap.insert(std::pair<int, const char*>(sf::Event::MouseMoved,           "CANVAS_MOUSE_MOVED"));
@@ -46,6 +47,22 @@ Application::~Application()
 {
     lua_close(_state);
     //dtor
+}
+
+void Application::close()
+{
+    raiseLuaEvent("SKB_QUIT");
+    _stop = true;
+}
+
+void Application::raiseLuaEvent(const char *name)
+{
+    lua_pushstring(_state, "skb_OnEvent");
+    lua_gettable(_state, LUA_GLOBALSINDEX);
+    lua_pushstring(_state, name);
+    lua_call(_state, 1, 1);
+
+    lua_pop(_state, 1);
 }
 
 sf::Window* Application::canvas()
@@ -104,8 +121,7 @@ int Application::exec(int argc, char* argv[])
     lua_pop(_state, 1);
     window = new sf::Window(sf::VideoMode(skb_window_width, skb_window_height, skb_window_depth), skb_window_title);
 
-    bool Running = true;
-    while (Running)
+    while (!_stop)
     {
         sf::Event Event;
         while (window->GetEvent(Event))
@@ -116,13 +132,10 @@ int Application::exec(int argc, char* argv[])
                 std::cout << "We havent mapped event with ID " << Event.Type << " to a lua-friendly version..." << std::endl;
                 continue;
             }
-            lua_pushstring(_state, "skb_OnEvent");
-            lua_gettable(_state, LUA_GLOBALSINDEX);
-            lua_pushstring(_state, luaName->second);
-            lua_call(_state, 1, 1);
-
-            lua_pop(_state, 1);
-            // Traitement de l'évènement
+            raiseLuaEvent(luaName->second);
+            //If caused a SKB_QUIT, stop processing immediately.
+            if(_stop)
+                break;
         }
 
         window->Display();
