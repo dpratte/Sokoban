@@ -23,14 +23,17 @@
 	<SFML/System.hpp>
 	<SFML/Window.hpp>
 
-1278387472 source:/home/david/Sokoban/Application.cpp
+1278388472 source:/home/david/Sokoban/Application.cpp
 	"stdafx.h"
 	"lua_wrappers.h"
 	"Application.h"
 
-1278387392 /home/david/Sokoban/Application.h
+1278387717 /home/david/Sokoban/Application.h
 
-1278385824 source:/home/david/Sokoban/lua_wrappers.cpp
+1278388439 source:/home/david/Sokoban/lua_wrappers.cpp
+	"stdafx.h"
+	"lua_wrappers.h"
+	"Application.h"
 
 1278386953 /home/david/Sokoban/lua_wrappers.h
 

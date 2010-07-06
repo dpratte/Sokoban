@@ -1,11 +1,13 @@
 -- Event handling for the game canvas.
 print("Loading event handlers from events.lua")
 canvas_invalidated = true
-
-function skb_OnEvent(e)
+canvas_key_escape = 12
+function skb_OnEvent(e, data)
 	print("Event: " .. e)
 	if e == "CANVAS_CLOSED" then
-		skb_quit()	
+		skb.quit()	
+	elseif e == "CANVAS_KEY_RELEASED" and data == 2 then
+		skb.quit();
 	end
 	return 0
 end

@@ -23,7 +23,7 @@ class Application
         bool _stop;
         sf::Window* window;
         std::map<int, const char*> _eventStringMap;
-        void raiseLuaEvent(const char* name);
+        void raiseLuaEvent(const char* name, const int data1 = 0);
     private:
         /** Default constructor */
         Application();

@@ -55,12 +55,13 @@ void Application::close()
     _stop = true;
 }
 
-void Application::raiseLuaEvent(const char *name)
+void Application::raiseLuaEvent(const char *name, const int data1)
 {
     lua_pushstring(_state, "skb_OnEvent");
     lua_gettable(_state, LUA_GLOBALSINDEX);
     lua_pushstring(_state, name);
-    lua_call(_state, 1, 1);
+    lua_pushnumber(_state, data1);
+    lua_call(_state, 2, 1);
 
     lua_pop(_state, 1);
 }
@@ -127,12 +128,18 @@ int Application::exec(int argc, char* argv[])
         while (window->GetEvent(Event))
         {
             std::map<int, const char*>::iterator luaName = _eventStringMap.find(Event.Type);
-
+            int data1 = 0;
             if(luaName == _eventStringMap.end()){
                 std::cout << "We havent mapped event with ID " << Event.Type << " to a lua-friendly version..." << std::endl;
                 continue;
             }
-            raiseLuaEvent(luaName->second);
+            switch(luaName->first){
+                case sf::Event::KeyReleased:
+                case sf::Event::KeyPressed:
+                    data1 = 12;
+                    break;
+            }
+            raiseLuaEvent(luaName->second, data1);
             //If caused a SKB_QUIT, stop processing immediately.
             if(_stop)
                 break;
