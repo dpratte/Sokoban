@@ -1,0 +1,25 @@
+# depslib dependency file v1.0
+1278379571 source:/home/david/Sokoban/main.cpp
+	"stdafx.h"
+	"Application.h"
+
+1278379770 source:/home/david/Sokoban/stdafx.h
+	<iostream>
+	<lua.h>
+	<lualib.h>
+	<lauxlib.h>
+	<SFML/System.hpp>
+
+1278379770 /home/david/Sokoban/stdafx.h
+	<iostream>
+	<lua.h>
+	<lualib.h>
+	<lauxlib.h>
+	<SFML/System.hpp>
+
+1278380882 source:/home/david/Sokoban/Application.cpp
+	"stdafx.h"
+	"Application.h"
+
+1278379789 /home/david/Sokoban/Application.h
+
